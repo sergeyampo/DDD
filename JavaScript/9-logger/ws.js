@@ -1,6 +1,5 @@
-'use strict';
 
-const console = require('./logger.js');
+
 const { Server } = require('ws');
 
 module.exports = (routing, port) => {
@@ -28,7 +27,7 @@ module.exports = (routing, port) => {
         const result = await handler(...args);
         connection.send(JSON.stringify(result.rows), { binary: false });
       } catch (err) {
-        console.error(err);
+        console.dir({ err });
         connection.send('"Server error"', { binary: false });
       }
     });

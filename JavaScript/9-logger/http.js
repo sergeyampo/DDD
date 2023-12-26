@@ -1,4 +1,4 @@
-'use strict';
+
 
 const http = require('node:http');
 
@@ -27,5 +27,5 @@ module.exports = (routing, port) => {
     res.end(JSON.stringify(result.rows));
   }).listen(port);
 
-  console.log(`API on port ${port}`);
+  console.log(`Listen on port ${port}`);
 };

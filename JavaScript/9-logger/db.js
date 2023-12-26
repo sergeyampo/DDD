@@ -1,13 +1,14 @@
-'use strict';
+
 
 const pg = require('pg');
+const config = require('./config');
 
 const pool = new pg.Pool({
-  host: '127.0.0.1',
-  port: 5432,
-  database: 'example',
-  user: 'marcus',
-  password: 'marcus',
+  host: config.database.host,
+  port: config.database.port,
+  database: config.database.database,
+  user: config.database.user,
+  password: config.database.password,
 });
 
 module.exports = (table) => ({
@@ -33,7 +34,7 @@ module.exports = (table) => ({
     }
     const fields = '"' + keys.join('", "') + '"';
     const params = nums.join(', ');
-    const sql = `INSERT INTO "${table}" (${fields}) VALUES (${params})`;
+    const sql = `INSERT INTO "${table}" (${fields}) VALUES (${params}) RETURNING id`;
     return await pool.query(sql, data);
   },
 

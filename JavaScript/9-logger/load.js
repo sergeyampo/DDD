@@ -1,4 +1,4 @@
-'use strict';
+
 
 const fs = require('node:fs').promises;
 const vm = require('node:vm');

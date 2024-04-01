@@ -64,9 +64,30 @@ const scaffold = (url) => {
       restore: ['token'],
     },
     messenger: {
-      method: ['arg'],
+      send: ['record'],
     },
+    account: {
+      getById: ['id'],
+    },
+    appointment: {
+      create: ['record'],
+    }
   });
-  const data = await api.auth.signin('marcus', 'marcus');
-  console.dir({ data });
+  {
+    const data = await api.messenger.send({
+      fromId: '1',
+      toId: '2',
+      message: 'hello'
+    });
+    console.dir({ data });
+  }
+  {
+    const data = await api.appointment.create({
+      patientId: '1',
+      specialistId: '2',
+      startDateTime: new Date(),
+      endDateTime: new Date(Date.now() + 3600),
+    });
+    console.dir({ data });
+  }
 })();

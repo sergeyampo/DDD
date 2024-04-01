@@ -9,10 +9,17 @@ const crud = (pool) => (table) => ({
   },
 
   async read(id, fields = ['*']) {
-    const names = fields.join(', ');
-    const sql = `SELECT ${names} FROM ${table}`;
+    const names = fields.map(
+      (field) => (field === '*' ? '*' : `"${field}"`)
+    ).join(', ');
+    const sql = `SELECT ${names} FROM "${table}"`;
     if (!id) return pool.query(sql);
-    return pool.query(`${sql} WHERE id = $1`, [id]);
+    const tableStartsWithLowerCase = table.charAt(0).toLowerCase() +
+      table.slice(1);
+    return pool.query(
+      `${sql} WHERE "${tableStartsWithLowerCase}Id" = $1`,
+      [id]
+    );
   },
 
   async create({ ...record }) {
@@ -24,7 +31,9 @@ const crud = (pool) => (table) => ({
       data[i] = record[key];
       nums[i] = `$${++i}`;
     }
-    const fields = '"' + keys.join('", "') + '"';
+    const fields = keys.map(
+      (key) => (key === '*' ? '*' : `"${key}"`)
+    ).join(', ');
     const params = nums.join(', ');
     const sql = `INSERT INTO "${table}" (${fields}) VALUES (${params})`;
     return pool.query(sql, data);

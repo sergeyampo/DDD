@@ -13,15 +13,15 @@ module.exports = {
     displayErrors: false,
   },
   db: {
-    host: '127.0.0.1',
+    host: 'localhost',
     port: 5432,
-    database: 'example',
-    user: 'marcus',
-    password: 'marcus',
+    database: 'metatech',
+    user: 'admin',
+    password: 'admin',
   },
   pg: {
-    database: 'postgres',
-    user: 'postgres',
-    password: 'postgres',
+    database: 'metatech',
+    user: 'admin',
+    password: 'admin',
   },
 };

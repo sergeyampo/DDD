@@ -11,7 +11,7 @@ const db = require('./lib/db.js')(config.db);
 const transport = require(`./transport/${config.api.transport}.js`);
 
 const sandbox = {
-  api: Object.freeze({}),
+  api: {},
   db: Object.freeze(db),
   console: Object.freeze(logger),
   common: Object.freeze(common),
@@ -27,7 +27,7 @@ const routing = {};
     const serviceName = path.basename(fileName, '.js');
     routing[serviceName] = await load(filePath, sandbox);
   }
-
+  sandbox.api = routing;
   staticServer('./static', config.static.port, logger);
   transport(routing, config.api.port, logger);
 })();
